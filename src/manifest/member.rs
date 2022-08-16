@@ -1,8 +1,8 @@
 use super::{
     ArchCollectionWrapper, BorrowedDirectory, BorrowedPacman, BorrowedWrapper, BuildMetadata,
-    ContainerWrapper, DirectoryWrapper, FailedBuildRecordWrapper, GlobalSettings, OwnedDirectory,
-    OwnedPacman, OwnedWrapper, PackagerWrapper, PacmanWrapper, RepositoryWrapper, TriState,
-    Wrapper,
+    ContainerWrapper, DirectoryWrapper, FailedBuildRecordWrapper, GlobalSettings, GnupgHomeWrapper,
+    GpgKeyWrapper, OwnedDirectory, OwnedPacman, OwnedWrapper, PackagerWrapper, PacmanWrapper,
+    RepositoryWrapper, TriState, Wrapper,
 };
 use pipe_trait::*;
 use serde::{Deserialize, Serialize};
@@ -82,6 +82,8 @@ where
             impl ArchCollectionWrapper,
             impl PacmanWrapper,
             impl PackagerWrapper,
+            impl GnupgHomeWrapper,
+            impl GpgKeyWrapper,
         >,
     ) -> OwnedMember {
         macro_rules! resolve_memcpy_option {

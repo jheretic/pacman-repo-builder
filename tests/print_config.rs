@@ -111,6 +111,8 @@ fn with_flags() {
         .with_args(&["--with-force-rebuild", "true"])
         .with_args(&["--with-pacman", "pacman"])
         .with_args(&["--with-packager", "Bob <bob@example.com>"])
+        .with_args(&["--with-gnupg-home", ".gpg"])
+        .with_args(&["--with-gpg-key", "00000000"])
         .with_args(&["--with-allow-failure", "false"])
         .with_args(&["--with-dereference-database-symlinks", "true"])
         .pipe(output);

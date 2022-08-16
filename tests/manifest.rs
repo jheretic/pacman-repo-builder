@@ -1,8 +1,8 @@
 use pacman_repo_builder::{
     manifest::{
         ArchFilter, BorrowedInner, BuildMetadata, BuildPacmanRepo, OwnedBuildPacmanRepo,
-        OwnedContainer, OwnedFailedBuildRecord, OwnedGlobalSettings, OwnedInitAurBuilder,
-        OwnedMember, TriState, Wrapper,
+        OwnedContainer, OwnedFailedBuildRecord, OwnedGlobalSettings, OwnedGnupgHome,
+        OwnedInitAurBuilder, OwnedMember, TriState, Wrapper,
     },
     utils::{deserialize_multi_docs_yaml, serialize_iter_yaml},
 };
@@ -79,6 +79,8 @@ fn manifest_list() -> impl Iterator<Item = OwnedBuildPacmanRepo> {
             check: None,
             pacman: None,
             packager: None,
+            gnupg_home: None,
+            gpg_key: None,
             allow_failure: None,
             dereference_database_symlinks: None,
         },
@@ -100,6 +102,8 @@ fn manifest_list() -> impl Iterator<Item = OwnedBuildPacmanRepo> {
             check: Some(TriState::Inherit),
             pacman: Some("pacman".to_owned_wrapper()),
             packager: None,
+            gnupg_home: None,
+            gpg_key: None,
             allow_failure: Some(true),
             dereference_database_symlinks: None,
         },
@@ -121,6 +125,11 @@ fn manifest_list() -> impl Iterator<Item = OwnedBuildPacmanRepo> {
             check: Some(TriState::Enabled),
             pacman: None,
             packager: Some("Bob <bob@example.com>".to_owned_wrapper()),
+            gnupg_home: ".gpg"
+                .pipe(PathBuf::from)
+                .pipe(OwnedGnupgHome::from_inner)
+                .pipe(Some),
+            gpg_key: Some("00000000".to_owned_wrapper()),
             allow_failure: None,
             dereference_database_symlinks: Some(false),
         },
@@ -145,6 +154,11 @@ fn manifest_list() -> impl Iterator<Item = OwnedBuildPacmanRepo> {
             check: Some(TriState::Disabled),
             pacman: Some("pacman".to_owned_wrapper()),
             packager: Some("Bob <bob@example.com>".to_owned_wrapper()),
+            gnupg_home: ".gpg"
+                .pipe(PathBuf::from)
+                .pipe(OwnedGnupgHome::from_inner)
+                .pipe(Some),
+            gpg_key: Some("00000000".to_owned_wrapper()),
             allow_failure: Some(true),
             dereference_database_symlinks: Some(true),
         },

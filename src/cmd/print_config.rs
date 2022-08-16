@@ -29,6 +29,8 @@ pub fn print_config(args: PrintConfigArgs) -> Status {
         with_check,
         with_pacman,
         with_packager,
+        with_gnupg_home,
+        with_gpg_key,
         with_allow_failure,
         with_dereference_database_symlinks,
     } = args;
@@ -52,6 +54,8 @@ pub fn print_config(args: PrintConfigArgs) -> Status {
         check: with_check,
         pacman: with_pacman.map(Wrapper::from_inner),
         packager: with_packager.map(Wrapper::from_inner),
+        gnupg_home: with_gnupg_home.map(Wrapper::from_inner),
+        gpg_key: with_gpg_key.map(Wrapper::from_inner),
         allow_failure: with_allow_failure,
         dereference_database_symlinks: with_dereference_database_symlinks,
     };

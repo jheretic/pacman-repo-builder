@@ -37,6 +37,8 @@ global-settings:
   arch-filter: [x86_64]
   check: inherit
   packager: Bob <bob@example.com>
+  gnupg-home: ".gpg"
+  gpg-key: "00000000"
   allow-failure: true
   dereference-database-symlinks: true
 members:
@@ -79,7 +81,8 @@ _`global-settings`'s own fields:_
 | `container`                      | `string`                       | optional, default = `.`                | Directory that contains all build directories (a.k.a. members).                                                                    |
 | `record-failed-builds`           | `string`                       | optional                               | If specified, old failed builds shall be skipped, and new failed builds shall be added to the file.                                |
 | `arch-filter`                    | <code>"any" \| string[]</code> | optional, default = `any`              | Specify all CPU architectures to build.<br>Either `any` or an array of strings (e.g. `[x86_64, i686]`).                            |
-| `packager`                       | `string`                       | optional, default = `Unknown Packager` | Identity of person or entity that produces the packages (i.e. the one who run this program).                                       |
+| `gnupg-home`                     | `string`                       | optional                               | Directory where the gpg keyring for signing the built package is stored.                                                           |
+| `gpg-key`                        | `string`                       | optional                               | Specify a key to use when signing packages.                                                                                        |
 | `dereference-database-symlinks`  | `boolean`                      | optional, default = `false`            | If `true`, all `*.db` and `*.files` symlinks will be converted to real files.                                                      |
 
 _`member`'s own fields:_

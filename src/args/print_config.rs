@@ -51,6 +51,10 @@ pub struct PrintConfigArgs {
     pub with_pacman: Option<String>,
     #[argh(option, description = "set packager")]
     pub with_packager: Option<String>,
+    #[argh(option, description = "set gnupg-home")]
+    pub with_gnupg_home: Option<PathBuf>,
+    #[argh(option, description = "set gpg-key")]
+    pub with_gpg_key: Option<String>,
     #[argh(option, description = "set allow-failure")]
     pub with_allow_failure: Option<bool>,
     #[argh(option, description = "set dereference-database-symlinks")]

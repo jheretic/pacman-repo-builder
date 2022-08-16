@@ -162,6 +162,24 @@ wrapper_type!(
     str
 );
 
+wrapper_type!(
+    GnupgHome,
+    GnupgHomeWrapper,
+    OwnedGnupgHome,
+    BorrowedGnupgHome,
+    PathBuf,
+    Path
+);
+
+wrapper_type!(
+    GpgKey,
+    GpgKeyWrapper,
+    OwnedGpgKey,
+    BorrowedGpgKey,
+    String,
+    str
+);
+
 type OwnedArchVec = Vec<String>;
 type BorrowedArchArray = [String];
 wrapper_type!(

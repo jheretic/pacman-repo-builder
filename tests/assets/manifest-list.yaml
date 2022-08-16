@@ -67,6 +67,8 @@ global-settings:
     - i686
   check: enabled
   packager: Bob <bob@example.com>
+  gnupg-home: ".gpg"
+  gpg-key: "00000000"
   dereference-database-symlinks: false
 members:
   - directory: foo
@@ -106,6 +108,8 @@ global-settings:
   check: disabled
   pacman: pacman
   packager: Bob <bob@example.com>
+  gnupg-home: ".gpg"
+  gpg-key: "00000000"
   allow-failure: true
   dereference-database-symlinks: true
 members:

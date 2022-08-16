@@ -1,10 +1,10 @@
 use super::{
     ArchCollectionWrapper, ArchFilter, BorrowedArchCollection, BorrowedContainer,
-    BorrowedFailedBuildRecord, BorrowedPackager, BorrowedPacman, BorrowedRepository,
-    BorrowedWrapper, BuildMetadata, ContainerWrapper, FailedBuildRecordWrapper,
-    OwnedArchCollection, OwnedContainer, OwnedFailedBuildRecord, OwnedPackager, OwnedPacman,
-    OwnedRepository, OwnedWrapper, PackagerWrapper, PacmanWrapper, RepositoryWrapper, TriState,
-    Wrapper,
+    BorrowedFailedBuildRecord, BorrowedGnupgHome, BorrowedGpgKey, BorrowedPackager, BorrowedPacman,
+    BorrowedRepository, BorrowedWrapper, BuildMetadata, ContainerWrapper, FailedBuildRecordWrapper,
+    GnupgHomeWrapper, GpgKeyWrapper, OwnedArchCollection, OwnedContainer, OwnedFailedBuildRecord,
+    OwnedGnupgHome, OwnedGpgKey, OwnedPackager, OwnedPacman, OwnedRepository, OwnedWrapper,
+    PackagerWrapper, PacmanWrapper, RepositoryWrapper, TriState, Wrapper,
 };
 use pipe_trait::*;
 use serde::{Deserialize, Serialize};
@@ -18,6 +18,8 @@ pub struct GlobalSettings<
     ArchCollection,
     Pacman,
     Packager,
+    GnupgHome,
+    GpgKey,
 > where
     Repository: RepositoryWrapper,
     Container: ContainerWrapper,
@@ -25,6 +27,8 @@ pub struct GlobalSettings<
     ArchCollection: ArchCollectionWrapper,
     Pacman: PacmanWrapper,
     Packager: PackagerWrapper,
+    GnupgHome: GnupgHomeWrapper,
+    GpgKey: GpgKeyWrapper,
 {
     pub repository: Repository,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -50,6 +54,10 @@ pub struct GlobalSettings<
     #[serde(skip_serializing_if = "Option::is_none")]
     pub packager: Option<Packager>,
     #[serde(skip_serializing_if = "Option::is_none")]
+    pub gnupg_home: Option<GnupgHome>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub gpg_key: Option<GpgKey>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub allow_failure: Option<bool>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub dereference_database_symlinks: Option<bool>,
@@ -62,6 +70,8 @@ pub type OwnedGlobalSettings = GlobalSettings<
     OwnedArchCollection,
     OwnedPacman,
     OwnedPackager,
+    OwnedGnupgHome,
+    OwnedGpgKey,
 >;
 pub type BorrowedGlobalSettings<'a> = GlobalSettings<
     BorrowedRepository<'a>,
@@ -70,10 +80,30 @@ pub type BorrowedGlobalSettings<'a> = GlobalSettings<
     BorrowedArchCollection<'a>,
     BorrowedPacman<'a>,
     BorrowedPackager<'a>,
+    BorrowedGnupgHome<'a>,
+    BorrowedGpgKey<'a>,
 >;
 
-impl<Repository, Container, FailedBuildRecord, ArchCollection, Pacman, Packager>
-    GlobalSettings<Repository, Container, FailedBuildRecord, ArchCollection, Pacman, Packager>
+impl<
+        Repository,
+        Container,
+        FailedBuildRecord,
+        ArchCollection,
+        Pacman,
+        Packager,
+        GnupgHome,
+        GpgKey,
+    >
+    GlobalSettings<
+        Repository,
+        Container,
+        FailedBuildRecord,
+        ArchCollection,
+        Pacman,
+        Packager,
+        GnupgHome,
+        GpgKey,
+    >
 where
     Repository: RepositoryWrapper,
     Container: ContainerWrapper,
@@ -81,6 +111,8 @@ where
     ArchCollection: ArchCollectionWrapper,
     Pacman: PacmanWrapper,
     Packager: PackagerWrapper,
+    GnupgHome: GnupgHomeWrapper,
+    GpgKey: GpgKeyWrapper,
 {
     pub fn as_borrowed(&self) -> BorrowedGlobalSettings<'_> {
         macro_rules! convert_option {
@@ -102,6 +134,8 @@ where
             check: self.check,
             pacman: convert_option!(pacman),
             packager: convert_option!(packager),
+            gnupg_home: convert_option!(gnupg_home),
+            gpg_key: convert_option!(gpg_key),
             allow_failure: self.allow_failure,
             dereference_database_symlinks: self.dereference_database_symlinks,
         }
@@ -127,6 +161,8 @@ where
             check: self.check,
             pacman: convert_option!(pacman),
             packager: convert_option!(packager),
+            gnupg_home: convert_option!(gnupg_home),
+            gpg_key: convert_option!(gpg_key),
             allow_failure: self.allow_failure,
             dereference_database_symlinks: self.dereference_database_symlinks,
         }

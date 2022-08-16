@@ -9,6 +9,8 @@ global-settings:
   force-rebuild: true
   pacman: pacman
   packager: Bob <bob@example.com>
+  gnupg-home: ".gpg"
+  gpg-key: "00000000"
   allow-failure: false
   dereference-database-symlinks: true
 members:

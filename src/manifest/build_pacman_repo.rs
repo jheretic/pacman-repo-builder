@@ -1,8 +1,9 @@
 use super::{
     ArchCollectionWrapper, BorrowedArchCollection, BorrowedContainer, BorrowedDirectory,
-    BorrowedFailedBuildRecord, BorrowedPackager, BorrowedPacman, BorrowedRepository,
-    ContainerWrapper, DirectoryWrapper, FailedBuildRecordWrapper, GlobalSettings, Member,
-    OwnedArchCollection, OwnedContainer, OwnedDirectory, OwnedFailedBuildRecord, OwnedMember,
+    BorrowedFailedBuildRecord, BorrowedGnupgHome, BorrowedGpgKey, BorrowedPackager, BorrowedPacman,
+    BorrowedRepository, ContainerWrapper, DirectoryWrapper, FailedBuildRecordWrapper,
+    GlobalSettings, GnupgHomeWrapper, GpgKeyWrapper, Member, OwnedArchCollection, OwnedContainer,
+    OwnedDirectory, OwnedFailedBuildRecord, OwnedGnupgHome, OwnedGpgKey, OwnedMember,
     OwnedPackager, OwnedPacman, OwnedRepository, PackagerWrapper, PacmanWrapper, RepositoryWrapper,
 };
 use pipe_trait::*;
@@ -20,6 +21,8 @@ pub struct BuildPacmanRepo<
     ArchCollection,
     Pacman,
     Packager,
+    GnupgHome,
+    GpgKey,
     Directory,
 > where
     Repository: RepositoryWrapper,
@@ -28,10 +31,20 @@ pub struct BuildPacmanRepo<
     ArchCollection: ArchCollectionWrapper,
     Pacman: PacmanWrapper,
     Packager: PackagerWrapper,
+    GnupgHome: GnupgHomeWrapper,
+    GpgKey: GpgKeyWrapper,
     Directory: DirectoryWrapper,
 {
-    pub global_settings:
-        GlobalSettings<Repository, Container, FailedBuildRecord, ArchCollection, Pacman, Packager>,
+    pub global_settings: GlobalSettings<
+        Repository,
+        Container,
+        FailedBuildRecord,
+        ArchCollection,
+        Pacman,
+        Packager,
+        GnupgHome,
+        GpgKey,
+    >,
     pub members: Vec<Member<Directory, Pacman>>,
 }
 
@@ -42,6 +55,8 @@ pub type OwnedBuildPacmanRepo = BuildPacmanRepo<
     OwnedArchCollection,
     OwnedPacman,
     OwnedPackager,
+    OwnedGnupgHome,
+    OwnedGpgKey,
     OwnedDirectory,
 >;
 pub type BorrowedBuildPacmanRepo<'a> = BuildPacmanRepo<
@@ -51,10 +66,22 @@ pub type BorrowedBuildPacmanRepo<'a> = BuildPacmanRepo<
     BorrowedArchCollection<'a>,
     BorrowedPacman<'a>,
     BorrowedPackager<'a>,
+    BorrowedGnupgHome<'a>,
+    BorrowedGpgKey<'a>,
     BorrowedDirectory<'a>,
 >;
 
-impl<Repository, Container, FailedBuildRecord, ArchCollection, Pacman, Packager, Directory>
+impl<
+        Repository,
+        Container,
+        FailedBuildRecord,
+        ArchCollection,
+        Pacman,
+        Packager,
+        GnupgHome,
+        GpgKey,
+        Directory,
+    >
     BuildPacmanRepo<
         Repository,
         Container,
@@ -62,6 +89,8 @@ impl<Repository, Container, FailedBuildRecord, ArchCollection, Pacman, Packager,
         ArchCollection,
         Pacman,
         Packager,
+        GnupgHome,
+        GpgKey,
         Directory,
     >
 where
@@ -71,6 +100,8 @@ where
     ArchCollection: ArchCollectionWrapper,
     Pacman: PacmanWrapper,
     Packager: PackagerWrapper,
+    GnupgHome: GnupgHomeWrapper,
+    GpgKey: GpgKeyWrapper,
     Directory: DirectoryWrapper,
 {
     pub fn as_borrowed(&self) -> BorrowedBuildPacmanRepo<'_> {

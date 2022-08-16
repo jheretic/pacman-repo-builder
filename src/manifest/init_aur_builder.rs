@@ -1,9 +1,11 @@
 use super::{
     ArchCollectionWrapper, AurCollectionWrapper, BorrowedArchCollection, BorrowedAurCollection,
-    BorrowedContainer, BorrowedFailedBuildRecord, BorrowedPackager, BorrowedPacman,
-    BorrowedRepository, ContainerWrapper, FailedBuildRecordWrapper, GlobalSettings,
-    OwnedArchCollection, OwnedAurCollection, OwnedContainer, OwnedFailedBuildRecord, OwnedPackager,
-    OwnedPacman, OwnedRepository, PackagerWrapper, PacmanWrapper, RepositoryWrapper, Wrapper,
+    BorrowedContainer, BorrowedFailedBuildRecord, BorrowedGnupgHome, BorrowedGpgKey,
+    BorrowedPackager, BorrowedPacman, BorrowedRepository, ContainerWrapper,
+    FailedBuildRecordWrapper, GlobalSettings, GnupgHomeWrapper, GpgKeyWrapper, OwnedArchCollection,
+    OwnedAurCollection, OwnedContainer, OwnedFailedBuildRecord, OwnedGnupgHome, OwnedGpgKey,
+    OwnedPackager, OwnedPacman, OwnedRepository, PackagerWrapper, PacmanWrapper, RepositoryWrapper,
+    Wrapper,
 };
 use pipe_trait::*;
 use serde::{Deserialize, Serialize};
@@ -20,6 +22,8 @@ pub struct InitAurBuilder<
     ArchCollection,
     Pacman,
     Packager,
+    GnupgHome,
+    GpgKey,
     AurCollection,
 > where
     Repository: RepositoryWrapper,
@@ -28,10 +32,20 @@ pub struct InitAurBuilder<
     ArchCollection: ArchCollectionWrapper,
     Pacman: PacmanWrapper,
     Packager: PackagerWrapper,
+    GnupgHome: GnupgHomeWrapper,
+    GpgKey: GpgKeyWrapper,
     AurCollection: AurCollectionWrapper,
 {
-    pub global_settings:
-        GlobalSettings<Repository, Container, FailedBuildRecord, ArchCollection, Pacman, Packager>,
+    pub global_settings: GlobalSettings<
+        Repository,
+        Container,
+        FailedBuildRecord,
+        ArchCollection,
+        Pacman,
+        Packager,
+        GnupgHome,
+        GpgKey,
+    >,
     pub aur_package_names: AurCollection,
 }
 
@@ -42,6 +56,8 @@ pub type OwnedInitAurBuilder = InitAurBuilder<
     OwnedArchCollection,
     OwnedPacman,
     OwnedPackager,
+    OwnedGnupgHome,
+    OwnedGpgKey,
     OwnedAurCollection,
 >;
 
@@ -52,10 +68,22 @@ pub type BorrowedInitAurBuilder<'a> = InitAurBuilder<
     BorrowedArchCollection<'a>,
     BorrowedPacman<'a>,
     BorrowedPackager<'a>,
+    BorrowedGnupgHome<'a>,
+    BorrowedGpgKey<'a>,
     BorrowedAurCollection<'a>,
 >;
 
-impl<Repository, Container, FailedBuildRecord, ArchCollection, Pacman, Packager, AurCollection>
+impl<
+        Repository,
+        Container,
+        FailedBuildRecord,
+        ArchCollection,
+        Pacman,
+        Packager,
+        GnupgHome,
+        GpgKey,
+        AurCollection,
+    >
     InitAurBuilder<
         Repository,
         Container,
@@ -63,6 +91,8 @@ impl<Repository, Container, FailedBuildRecord, ArchCollection, Pacman, Packager,
         ArchCollection,
         Pacman,
         Packager,
+        GnupgHome,
+        GpgKey,
         AurCollection,
     >
 where
@@ -72,6 +102,8 @@ where
     ArchCollection: ArchCollectionWrapper,
     Pacman: PacmanWrapper,
     Packager: PackagerWrapper,
+    GnupgHome: GnupgHomeWrapper,
+    GpgKey: GpgKeyWrapper,
     AurCollection: AurCollectionWrapper,
 {
     pub fn with_global_settings(
@@ -83,6 +115,8 @@ where
             ArchCollection,
             Pacman,
             Packager,
+            GnupgHome,
+            GpgKey,
         >,
     ) -> Self {
         self.global_settings = global_settings;

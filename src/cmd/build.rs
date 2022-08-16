@@ -32,11 +32,15 @@ pub fn build(args: BuildArgs) -> Status {
     let GlobalSettings {
         record_failed_builds,
         packager,
+        gnupg_home,
+        gpg_key,
         dereference_database_symlinks,
         arch_filter,
         ..
     } = &manifest.global_settings;
     let packager: Option<&str> = packager.as_ref().map(AsRef::as_ref);
+    let gnupg_home: Option<&Path> = gnupg_home.as_ref().map(AsRef::as_ref);
+    let gpg_key: Option<&str> = gpg_key.as_ref().map(AsRef::as_ref);
     let dereference_database_symlinks = dereference_database_symlinks.unwrap_or(false);
     let default_arch_filter = Default::default();
     let arch_filter = arch_filter.as_ref().unwrap_or(&default_arch_filter);
@@ -267,6 +271,8 @@ pub fn build(args: BuildArgs) -> Status {
                 .arg_if("--nocheck", check == TriState::Disabled)
                 .may_env("PACMAN", pacman)
                 .may_env("PACKAGER", packager)
+                .may_env("GNUPGHOME", gnupg_home)
+                .may_env("GPGKEY", gpg_key)
                 .with_env("CARCH", arch)
                 .with_current_dir(directory)
                 .with_stdin(Stdio::null())

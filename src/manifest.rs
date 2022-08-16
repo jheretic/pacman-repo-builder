@@ -21,10 +21,11 @@ pub use tristate::TriState;
 pub use wrapper::{
     ArchCollection, ArchCollectionWrapper, Associations, AurCollection, AurCollectionWrapper,
     BorrowedArchCollection, BorrowedAurCollection, BorrowedContainer, BorrowedDirectory,
-    BorrowedFailedBuildRecord, BorrowedInner, BorrowedPackager, BorrowedPacman, BorrowedRepository,
-    BorrowedWrapper, Container, ContainerWrapper, Directory, DirectoryWrapper, FailedBuildRecord,
-    FailedBuildRecordWrapper, OwnedArchCollection, OwnedAurCollection, OwnedContainer,
-    OwnedDirectory, OwnedFailedBuildRecord, OwnedInner, OwnedPackager, OwnedPacman,
+    BorrowedFailedBuildRecord, BorrowedGnupgHome, BorrowedGpgKey, BorrowedInner, BorrowedPackager,
+    BorrowedPacman, BorrowedRepository, BorrowedWrapper, Container, ContainerWrapper, Directory,
+    DirectoryWrapper, FailedBuildRecord, FailedBuildRecordWrapper, GnupgHome, GnupgHomeWrapper,
+    GpgKey, GpgKeyWrapper, OwnedArchCollection, OwnedAurCollection, OwnedContainer, OwnedDirectory,
+    OwnedFailedBuildRecord, OwnedGnupgHome, OwnedGpgKey, OwnedInner, OwnedPackager, OwnedPacman,
     OwnedRepository, OwnedWrapper, Packager, PackagerWrapper, Pacman, PacmanWrapper, Repository,
     RepositoryWrapper, Wrapper,
 };
